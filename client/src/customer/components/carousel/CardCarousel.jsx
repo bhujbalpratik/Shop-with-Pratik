@@ -5,7 +5,7 @@ import HomeSectionCard from "../card/homeSectionCard/HomeSectionCard"
 import { Button } from "@mui/material"
 import { KeyboardArrowLeft, Sync } from "@mui/icons-material"
 
-const CardCarousel = ({ data }) => {
+const CardCarousel = ({ data, sectionName }) => {
   const [mainIndex, setMainIndex] = useState(0)
   const [mainAnimation, setMainAnimation] = useState(false)
   const [thumbIndex, setThumbIndex] = useState(0)
@@ -73,6 +73,9 @@ const CardCarousel = ({ data }) => {
 
   return (
     <div className="border">
+      <h2 className="text-2xl font-extrabold text-gray-800 py-5">
+        {sectionName}
+      </h2>
       <div className="relative p-5">
         <AliceCarousel
           items={items}
