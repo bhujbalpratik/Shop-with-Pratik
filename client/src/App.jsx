@@ -1,5 +1,6 @@
 import Footer from "./customer/components/Footer/Footer"
 import Navigation from "./customer/components/navigation/Navigation"
+import Product from "./customer/components/Product/Product"
 import Home from "./customer/pages/Home/Home"
 
 const App = () => {
@@ -7,7 +8,8 @@ const App = () => {
     <div>
       <Navigation />
       <div className="">
-        <Home />
+        {/* <Home /> */}
+        <Product />
       </div>
       <Footer />
     </div>
