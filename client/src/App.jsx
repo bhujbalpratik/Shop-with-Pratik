@@ -1,3 +1,4 @@
+import Bag from "./customer/components/Bag/Bag"
 import Footer from "./customer/components/Footer/Footer"
 import Navigation from "./customer/components/navigation/Navigation"
 import Product from "./customer/components/Product/Product"
@@ -11,7 +12,8 @@ const App = () => {
       <div className="">
         {/* <Home /> */}
         {/* <Product /> */}
-        <ProductDetails />
+        {/* <ProductDetails /> */}
+        <Bag />
       </div>
       <Footer />
     </div>

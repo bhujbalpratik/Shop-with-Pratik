@@ -2,6 +2,10 @@ import { useState } from "react"
 import { RadioGroup } from "@headlessui/react"
 import { Box, Button, Grid, LinearProgress, Rating } from "@mui/material"
 import ProductReviewCard from "./ProductReviewCard"
+import { yellow } from "@mui/material/colors"
+import { mens_kurta } from "../../../Data/mens_kurta"
+import CardCarousel from "../carousel/CardCarousel"
+import HomeSectionCard from "../card/homeSectionCard/HomeSectionCard"
 const product = {
   name: "Basic Tee 6-Pack",
   price: "₹192",
@@ -101,6 +105,7 @@ export default function ProductDetails() {
             </li>
           </ol>
         </nav>
+        {/* Product Details Section*/}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-10 px-4 pt-10">
           {/* Image gallery */}
           <div className="flex flex-col items-center">
@@ -341,12 +346,12 @@ export default function ProductDetails() {
                 </div>
               </Grid>
               <Grid item xs={5}>
-                <h1 className="text-xl font-semibold pb-1">Product Rating</h1>
+                <h1 className="text-xl font-semibold pb-2">Product Rating</h1>
                 <div className="flex items-center space-x-3">
                   <Rating precision={0.5} readOnly value={4.6} />
                   <p className="opacity-60">5496 Product Ratings</p>
                 </div>
-                <Box className="mt-5">
+                <Box className="mt-5 space-y-3">
                   <Grid container alignItems={"center"} gap={2}>
                     <Grid item xs={2}>
                       <p>Excellent</p>
@@ -382,7 +387,11 @@ export default function ProductDetails() {
                         variant="determinate"
                         value={30}
                         color="success"
-                        sx={{ bgcolor: "#d0d0d0", height: 7, borderRadius: 4 }}
+                        sx={{
+                          bgcolor: "#d0d0d0",
+                          height: 7,
+                          borderRadius: 4,
+                        }}
                       ></LinearProgress>
                     </Grid>
                   </Grid>
@@ -393,8 +402,8 @@ export default function ProductDetails() {
                     <Grid item xs={7}>
                       <LinearProgress
                         variant="determinate"
-                        value={60}
-                        color="success"
+                        value={20}
+                        color="warning"
                         sx={{ bgcolor: "#d0d0d0", height: 7, borderRadius: 4 }}
                       ></LinearProgress>
                     </Grid>
@@ -406,8 +415,8 @@ export default function ProductDetails() {
                     <Grid item xs={7}>
                       <LinearProgress
                         variant="determinate"
-                        value={60}
-                        color="success"
+                        value={10}
+                        color="error"
                         sx={{ bgcolor: "#d0d0d0", height: 7, borderRadius: 4 }}
                       ></LinearProgress>
                     </Grid>
@@ -415,6 +424,15 @@ export default function ProductDetails() {
                 </Box>
               </Grid>
             </Grid>
+          </div>
+        </section>
+        {/* Similar Product Section */}
+        <section className="pt-10">
+          <h1 className="py-5 text-xl font-bold">Similar Products</h1>
+          <div className="flex flex-wrap space-y-5">
+            {mens_kurta.map((item) => (
+              <HomeSectionCard product={item} />
+            ))}
           </div>
         </section>
       </div>
