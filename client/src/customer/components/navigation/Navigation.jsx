@@ -9,12 +9,14 @@ import {
 import { navigation } from "./navigationData"
 import { Avatar, Menu, MenuItem } from "@mui/material"
 import { deepPurple } from "@mui/material/colors"
+import { useNavigate } from "react-router-dom"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
 }
 
 const Navigation = () => {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -24,6 +26,11 @@ const Navigation = () => {
     setAnchorEl(null)
   }
   const handleUserClick = (e) => setAnchorEl(e.currentTarget)
+
+  const handleCateogoryClick = (category, section, item, close) => {
+    navigate(`/${category.id}/${section.id}/${item.id}`)
+    close()
+  }
   return (
     <div className="bg-white">
       {/* Mobile menu */}
@@ -237,7 +244,7 @@ const Navigation = () => {
                 <div className="flex h-full space-x-8">
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
-                      {({ open }) => (
+                      {({ open, close }) => (
                         <>
                           <div className="relative flex">
                             <Popover.Button
@@ -322,12 +329,19 @@ const Navigation = () => {
                                                 key={item.name}
                                                 className="flex"
                                               >
-                                                <a
-                                                  href={item.href}
-                                                  className="hover:text-gray-800"
+                                                <p
+                                                  onClick={() =>
+                                                    handleCateogoryClick(
+                                                      category,
+                                                      section,
+                                                      item,
+                                                      close
+                                                    )
+                                                  }
+                                                  className="hover:text-gray-800 cursor-pointer"
                                                 >
                                                   {item.name}
-                                                </a>
+                                                </p>
                                               </li>
                                             ))}
                                           </ul>
@@ -385,7 +399,13 @@ const Navigation = () => {
                         <MenuItem onClick={handleCloseUserMenu}>
                           Profile
                         </MenuItem>
-                        <MenuItem>My Orders</MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            navigate("/account/order")
+                          }}
+                        >
+                          My Orders
+                        </MenuItem>
                         <MenuItem>Logout</MenuItem>
                       </Menu>
                     </div>

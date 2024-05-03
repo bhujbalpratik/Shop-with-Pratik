@@ -6,6 +6,7 @@ import { yellow } from "@mui/material/colors"
 import { mens_kurta } from "../../../Data/mens_kurta"
 import CardCarousel from "../carousel/CardCarousel"
 import HomeSectionCard from "../card/homeSectionCard/HomeSectionCard"
+import { useNavigate } from "react-router-dom"
 const product = {
   name: "Basic Tee 6-Pack",
   price: "₹192",
@@ -61,6 +62,7 @@ function classNames(...classes) {
 }
 
 export default function ProductDetails() {
+  const navigate = useNavigate()
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
 
@@ -204,7 +206,7 @@ export default function ProductDetails() {
                 </div>
 
                 {/* Sizes */}
-                <div className="mt-10">
+                <div className="mt-10 mb-5">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-gray-900">Size</h3>
                     <a
@@ -285,7 +287,9 @@ export default function ProductDetails() {
                 </div>
 
                 <Button
+                  onClick={() => navigate("/bag")}
                   variant="contained"
+                  className="mt-5"
                   sx={{ px: "2rem", py: "1rem", bgcolor: "#9155fd" }}
                 >
                   Add To Bag
@@ -338,14 +342,14 @@ export default function ProductDetails() {
           </h1>
           <div className=" border p-5">
             <Grid container spacing={7}>
-              <Grid item xs={7}>
+              <Grid item xs={12} lg={6}>
                 <div className="space-y-5">
                   {[1, 1, 1].map((item) => (
                     <ProductReviewCard />
                   ))}
                 </div>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={12} lg={5}>
                 <h1 className="text-xl font-semibold pb-2">Product Rating</h1>
                 <div className="flex items-center space-x-3">
                   <Rating precision={0.5} readOnly value={4.6} />

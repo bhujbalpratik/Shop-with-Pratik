@@ -1,7 +1,9 @@
 import { Button, Divider } from "@mui/material"
 import BagItem from "./BagItem"
+import { useNavigate } from "react-router-dom"
 
 const Bag = () => {
+  const navigate = useNavigate()
   return (
     <div className="mt-5">
       <div className="lg:grid grid-cols-3 lg:px-16 relative">
@@ -33,6 +35,7 @@ const Bag = () => {
               </div>
             </div>
             <Button
+              onClick={() => navigate("/checkout?step=2")}
               className="w-full"
               variant="contained"
               sx={{ px: "2.5rem", py: ".7rem", bgcolor: "#9155fd" }}
