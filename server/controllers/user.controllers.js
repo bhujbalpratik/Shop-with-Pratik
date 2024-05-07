@@ -59,15 +59,59 @@ export const logoutUser = async (req, res, next) => {
 }
 
 export const getUserProfile = (req, res, next) => {
-  const { user } = req
-  const { password, ...rest } = user._doc
-  res.status(202).json(rest)
+  try {
+    const { user } = req
+    const { password, ...rest } = user._doc
+    res.status(202).json(rest)
+  } catch (error) {
+    next(error)
+  }
 }
-// export const updateProfile = async (req, res, next) => {
-//   if(req.params)
-//   try {
+export const updateProfile = async (req, res, next) => {
+  if (req.params.id !== req.user._id.toString())
+    return next(errorHandler(400, "You can update only your account"))
+  try {
+    if (req.body.email) {
+      const user = await User.findOne({ email: req.body.email })
+      if (user) return next(errorHandler(400, "email already exist"))
+    }
 
-//   } catch (error) {
-//     next(error)
-//   }
-// }
+    if (req.body.password) {
+      req.body.password = bcryptjs.hashSync(req.body.password, 10)
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          name: req.body.name,
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          email: req.body.email,
+          password: req.body.password,
+        },
+      },
+      { new: true }
+    )
+
+    const { password, ...rest } = updatedUser._doc
+
+    res.status(200).json({ message: "user updated successfully", rest })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteUser = async (req, res, next) => {
+  if (req.params.id !== req.user._id.toString())
+    return next(errorHandler(401, "Unauthorize to delete account"))
+  try {
+    await User.findByIdAndDelete(req.params.id)
+    res
+      .clearCookie("token")
+      .status(200)
+      .json({ message: "User deleted successfuly" })
+  } catch (error) {
+    next(error)
+  }
+}
