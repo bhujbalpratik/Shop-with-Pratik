@@ -8,6 +8,8 @@ import ProductDetails from "../customer/components/ProductDetails/ProductDetails
 import Checkout from "../customer/components/checkout/Checkout"
 import Order from "../customer/components/Order/Order"
 import OrderDetails from "../customer/components/Order/OrderDetails"
+import Signup from "../customer/pages/Signup/Signup"
+import Login from "../customer/pages/Login/Login"
 const CustomerRoutes = () => {
   return (
     <div>
@@ -16,6 +18,8 @@ const CustomerRoutes = () => {
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/bag" element={<Bag />} />
         <Route path="/:levelOne/:levelTwo/:levelThree" element={<Product />} />
         <Route path="/product/:productId" element={<ProductDetails />} />
