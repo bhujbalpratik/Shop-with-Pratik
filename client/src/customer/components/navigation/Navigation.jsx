@@ -6,6 +6,7 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline"
+import { useDispatch, useSelector } from "react-redux"
 import { navigation } from "./navigationData"
 import { Avatar, Menu, MenuItem } from "@mui/material"
 import { deepPurple } from "@mui/material/colors"
@@ -31,6 +32,7 @@ const Navigation = () => {
     navigate(`/${category.id}/${section.id}/${item.id}`)
     close()
   }
+
   return (
     <div className="bg-white">
       {/* Mobile menu */}
