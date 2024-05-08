@@ -10,9 +10,13 @@ import Order from "../customer/components/Order/Order"
 import OrderDetails from "../customer/components/Order/OrderDetails"
 import Signup from "../customer/pages/Signup/Signup"
 import Login from "../customer/pages/Login/Login"
+import { Toaster } from "react-hot-toast"
+import Profile from "../customer/pages/Profile/Profile"
+import PrivateRoute from "./PrivateRoute"
 const CustomerRoutes = () => {
   return (
     <div>
+      <Toaster />
       <div>
         <Navigation />
       </div>
@@ -20,6 +24,9 @@ const CustomerRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
         <Route path="/bag" element={<Bag />} />
         <Route path="/:levelOne/:levelTwo/:levelThree" element={<Product />} />
         <Route path="/product/:productId" element={<ProductDetails />} />

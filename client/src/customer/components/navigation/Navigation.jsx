@@ -8,15 +8,19 @@ import {
 } from "@heroicons/react/24/outline"
 import { useDispatch, useSelector } from "react-redux"
 import { navigation } from "./navigationData"
-import { Avatar, Menu, MenuItem } from "@mui/material"
+import { Avatar, Button, Menu, MenuItem } from "@mui/material"
 import { deepPurple } from "@mui/material/colors"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { logout } from "../../../app/user/userSlice"
+import toast from "react-hot-toast"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
 }
 
 const Navigation = () => {
+  const { currentUser } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
@@ -25,6 +29,26 @@ const Navigation = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorEl(null)
+  }
+  const handleLogout = async () => {
+    handleCloseUserMenu()
+    try {
+      const res = await fetch("/api/users/logout")
+      const data = await res.json()
+      if (data) {
+        toast.success(data.message, {
+          duration: 3000,
+          style: { borderRadius: "10px", background: "#fff", color: "#333" },
+        })
+      }
+      dispatch(logout())
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message, {
+        duration: 3000,
+        style: { borderRadius: "10px", background: "#fff", color: "#333" },
+      })
+    }
   }
   const handleUserClick = (e) => setAnchorEl(e.currentTarget)
 
@@ -374,7 +398,7 @@ const Navigation = () => {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {true ? (
+                  {currentUser ? (
                     <div>
                       <Avatar
                         className="text-white"
@@ -388,7 +412,7 @@ const Navigation = () => {
                           cursor: "pointer",
                         }}
                       >
-                        P
+                        {currentUser.name[0].toUpperCase()}
                       </Avatar>
 
                       <Menu
@@ -398,26 +422,26 @@ const Navigation = () => {
                         onClose={handleCloseUserMenu}
                         MenuListProps={{ "aria-labelledby": "basic-button" }}
                       >
-                        <MenuItem onClick={handleCloseUserMenu}>
-                          Profile
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            navigate("/account/order")
-                          }}
-                        >
-                          My Orders
-                        </MenuItem>
-                        <MenuItem>Logout</MenuItem>
+                        <Link to={"/profile"}>
+                          <MenuItem onClick={handleCloseUserMenu}>
+                            Profile
+                          </MenuItem>
+                        </Link>
+
+                        <Link to={"/account/order"}>
+                          <MenuItem onClick={handleCloseUserMenu}>
+                            My Orders
+                          </MenuItem>
+                        </Link>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
                       </Menu>
                     </div>
                   ) : (
-                    <Button
-                      onClick={handleOpen}
-                      className="text-sm font-medium text-gray-700 hover:text-gray-900"
-                    >
-                      Signin
-                    </Button>
+                    <Link to={"/login"}>
+                      <Button className="text-sm font-medium text-gray-700 hover:text-gray-900">
+                        Login
+                      </Button>
+                    </Link>
                   )}
                 </div>
 

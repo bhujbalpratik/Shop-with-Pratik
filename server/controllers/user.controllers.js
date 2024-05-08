@@ -35,14 +35,14 @@ export const loginUser = async (req, res, next) => {
       return next(errorHandler(401, "invalid email or password"))
 
     const token = jwt.sign({ _id: validuser._id }, process.env.JWT_SECRET)
-
+    const { password: hashedPassword, ...rest } = validuser._doc
     res
       .cookie("token", token, {
         httpOnly: true,
         maxAge: 12 * 24 * 60 * 60 * 1000,
       })
       .status(202)
-      .json({ message: `Welcome ${validuser.name}` })
+      .json(rest)
   } catch (error) {
     next(error)
   }

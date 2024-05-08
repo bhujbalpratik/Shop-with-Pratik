@@ -5,7 +5,6 @@ const initialState = {
     ? JSON.parse(localStorage.getItem("currentUser"))
     : null,
   loading: false,
-  error: false,
 }
 
 const userSlice = createSlice({
@@ -17,18 +16,21 @@ const userSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.currentUser = action.payload
-      localStorage.setItem("userInfo", JSON.stringify(action.payload))
+      localStorage.setItem("currentUser", JSON.stringify(action.payload))
       const expirationTime = new Date().getTime() + 12 * 24 * 60 * 60 * 1000
       localStorage.setItem("expirationTime", expirationTime)
       state.loading = false
-      state.error = false
     },
-    loginFailure: (state, action) => {
-      state.error = action.payload
+    loginFailure: (state) => {
       state.loading = false
+    },
+    logout: (state) => {
+      state.currentUser = null
+      localStorage.clear()
     },
   },
 })
 
-export const { loginStart, loginSuccess, loginFailure } = userSlice.actions
+export const { loginStart, loginSuccess, loginFailure, logout } =
+  userSlice.actions
 export default userSlice.reducer
