@@ -18,7 +18,7 @@ const bagSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-  totalItem: {
+  totalItems: {
     type: Number,
     required: true,
     default: 0,

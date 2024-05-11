@@ -1,4 +1,5 @@
 import { User } from "../models/user.model.js"
+import { creatBag } from "../service/bag.service.js"
 import { errorHandler } from "../utils/error.handler.js"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
@@ -15,7 +16,9 @@ export const createUser = async (req, res, next) => {
 
     const hashedPassword = bcryptjs.hashSync(password, 10)
 
-    await User.create({ name, email, password: hashedPassword })
+    const newUser = await User.create({ name, email, password: hashedPassword })
+
+    await creatBag(newUser)
 
     res.status(201).json({ message: "User created successfully" })
   } catch (error) {
