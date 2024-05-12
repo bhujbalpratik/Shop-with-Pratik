@@ -1,5 +1,6 @@
 import { Bag } from "../models/bag.model"
 import { BagItems } from "../models/bagItem.model"
+import { Product } from "../models/product.model"
 
 export const creatBag = async (user) => {
   const bag = new Bag({ user })
@@ -29,4 +30,29 @@ export const findUserBag = async (userId) => {
   return bag
 }
 
-export const addBagItem = async (userId, req) => {}
+export const addBagItem = async (userId, req) => {
+  const bag = await Bag.findOne({ usser: userId })
+  const product = await Product.findById(req.productId)
+  const isPresent = await BagItems.findOne({
+    bag: bag._id,
+    product: product._id,
+    userId,
+  })
+
+  if (!isPresent) {
+    const bagItem = new BagItems({
+      product: product._id,
+      bag: bag._id,
+      quantity: 1,
+      userId,
+      price: product.discountedPrice,
+      size: req.size,
+      discountedPrice: product.discountedPrice,
+    })
+
+    const createdBagItem = await bagItem.save()
+    bag.bagItems.push(createdBagItem)
+    await bag.save()
+  }
+  return "Item added to bag"
+}
