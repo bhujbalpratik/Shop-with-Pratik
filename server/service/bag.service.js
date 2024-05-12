@@ -31,28 +31,32 @@ export const findUserBag = async (userId) => {
 }
 
 export const addBagItem = async (userId, req) => {
-  const bag = await Bag.findOne({ usser: userId })
-  const product = await Product.findById(req.productId)
-  const isPresent = await BagItems.findOne({
-    bag: bag._id,
-    product: product._id,
-    userId,
-  })
-
-  if (!isPresent) {
-    const bagItem = new BagItems({
-      product: product._id,
+  try {
+    const bag = await Bag.findOne({ usser: userId })
+    const product = await Product.findById(req.productId)
+    const isPresent = await BagItems.findOne({
       bag: bag._id,
-      quantity: 1,
+      product: product._id,
       userId,
-      price: product.discountedPrice,
-      size: req.size,
-      discountedPrice: product.discountedPrice,
     })
 
-    const createdBagItem = await bagItem.save()
-    bag.bagItems.push(createdBagItem)
-    await bag.save()
+    if (!isPresent) {
+      const bagItem = new BagItems({
+        product: product._id,
+        bag: bag._id,
+        quantity: 1,
+        userId,
+        price: product.discountedPrice,
+        size: req.size,
+        discountedPrice: product.discountedPrice,
+      })
+
+      const createdBagItem = await bagItem.save()
+      bag.bagItems.push(createdBagItem)
+      await bag.save()
+    }
+    return "Item added to bag"
+  } catch (error) {
+    throw new Error(error.message)
   }
-  return "Item added to bag"
 }

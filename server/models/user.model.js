@@ -28,10 +28,10 @@ const userSchema = new mongoose.Schema({
   mobile: {
     type: String,
   },
-  address: [{ type: mongoose.Schema.Types.ObjectId, ref: "addresses" }],
-  paymentInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "paymentInfo" }],
-  ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: "ratings" }],
-  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "reviews" }],
+  address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
+  paymentInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "PaymentInfo" }],
+  ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ratings" }],
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reviews" }],
   createdAt: { type: Date, default: Date.now() },
 })
 
