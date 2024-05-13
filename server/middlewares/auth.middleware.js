@@ -16,3 +16,8 @@ export const isAuthenticated = async (req, res, next) => {
     next(error)
   }
 }
+
+export const isAuthorizeAdmin = (req, res, next) => {
+  if (req.user && req.user.role === "ADMIN") next()
+  else return next(errorHandler(401, "Not authorize as an admin"))
+}
